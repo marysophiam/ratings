@@ -20,7 +20,6 @@ class User(db.Model):
 
         return "<User user_id=%s email=%s>" % (self.user_id,
                                                self.email)
-    
 
     __tablename__ = "users"
 

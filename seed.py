@@ -48,7 +48,8 @@ def load_movies():
         row = row.rstrip().split("|")
 
         movie_id = row[0]
-        title = row[1]
+        print row
+        title = row[1][:-6]
         released_at = row[2]
         if released_at == "":
             released_at = None
