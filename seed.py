@@ -2,8 +2,8 @@
 
 from sqlalchemy import func
 from model import User
-# from model import Rating
-# from model import Movie
+# from model import Ratings
+from model import Movie
 
 from model import connect_to_db, db
 from server import app
@@ -36,6 +36,34 @@ def load_users():
 
 def load_movies():
     """Load movies from u.item into database."""
+
+    print "Movies"
+
+    # Delete all rows in table, so if we need to run this a second time,
+    # we won't be trying to add duplicate movies
+    Movie.query.delete()
+
+    # Read u.user file and insert data
+    for row in open("seed_data/u.item"):
+        row = row.rstrip()
+        movie_id, title, released_at, video_release_date, imdb_url, Childrens, Comedy, Crime, Documentary, Drama, Fantasy, FilmNoir, Horror, Musical, Mystery, Romance, SciFi, Thriller, War, Western = row.split("|")
+
+        # movie_id, movie_title, released_at, video_release_date,
+        # imdb_url, unknown, Action, Adventure, Animation,
+        # Childrens, Comedy, Crime, Documentary, Drama, Fantasy,
+        # FilmNoir, Horror, Musical, Mystery, Romance, SciFi,
+        # Thriller, War, Western
+
+        movie = Movie(movie_id=movie_id,
+                      title=title,
+                      released_at=released_at,
+                      imdb_url=imdb_url)
+
+        # We need to add to the session or it won't ever be stored
+        db.session.add(movie)
+
+    # Once we're done, we should commit our work
+    db.session.commit()
 
 
 def load_ratings():
