@@ -20,7 +20,7 @@ class User(db.Model):
 
         return "<User user_id=%s email=%s>" % (self.user_id,
                                                self.email)
-    
+
 
     __tablename__ = "users"
 
@@ -36,6 +36,12 @@ class User(db.Model):
 class Movie(db.Model):
     """Movie information."""
 
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Movie movie_id=%s title=%s>" % (self.movie_id,
+                                               self.title)
+
     __tablename__ = "movies"
 
     movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -47,6 +53,12 @@ class Movie(db.Model):
 
 class Ratings(db.Model):
     """Ratings for movies by user ID."""
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Ratings rating_id=%s movie_id=%s>" % (self.rating_id,
+                                               self.movie_id)
 
     __tablename__ = "ratings"
 
