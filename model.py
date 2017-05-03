@@ -15,22 +15,20 @@ db = SQLAlchemy()
 class User(db.Model):
     """User of ratings website."""
 
+    __tablename__ = "users"
+
+    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    email = db.Column(db.String(64), nullable=True)
+    password = db.Column(db.String(64), nullable=True)
+    age = db.Column(db.Integer, nullable=True)
+    zipcode = db.Column(db.String(15), nullable=True)
+
     def __repr__(self):
         """Provide helpful representation when printed."""
 
         return "<User user_id=%s email=%s>" % (self.user_id,
                                                self.email)
 
-    __tablename__ = "users"
-
-    user_id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), nullable=True)
-    password = db.Column(db.String(64), nullable=True)
-    age = db.Column(db.Integer, nullable=True)
-    zipcode = db.Column(db.String(15), nullable=True)
-
-
-# Put your Movie and Rating model classes here.
 
 class Movie(db.Model):
     """Movie information."""
@@ -39,8 +37,15 @@ class Movie(db.Model):
 
     movie_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
+    # Modify here at some point to only display date (not inc. time) in table
     released_at = db.Column(db.DateTime, nullable=True)
     imdb_url = db.Column(db.String(1000), nullable=True)
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Movie title=%s released_at=%s>" % (self.title,
+                                                    self.released_at)
 
 
 class Ratings(db.Model):
@@ -53,11 +58,17 @@ class Ratings(db.Model):
     user_id = db.Column(db.Integer, nullable=False)
     score = db.Column(db.Integer, nullable=False)
 
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return "<Ratings movie_id=%s score=%s>" % (self.movie_id,
+                                                   self.score)
+
+
 
 
 ##############################################################################
 # Helper functions
-
 def connect_to_db(app):
     """Connect the database to our Flask app."""
 
