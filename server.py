@@ -35,25 +35,36 @@ def user_list():
     users = User.query.all()
     return render_template("user_list.html", users=users)
 
-# *** START HERE TOMORROW (5/4)
+
+#go to registration form
 @app.route('/register', methods=["GET"])
 def register_form():
     """     """
-    email = request.args.get('email')
-    password = request.arg.get('password')
 
-    return render_template(registration_form.html)
+    return render_template("register_form.html")
 
 
-# *** START HERE TOMORROW (5/4)
+#submit registration
 @app.route('/register', methods=["POST"])
 def register_process():
     """      """
-    #####CODE checks if the user is in the database... if not add new user
-    # once new user added ... redirect user to the homepage
+
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    user_query = User.query.filter_by(email=email)
+    if user_query.all() == []:
+        user_query = User(email=email,
+                          password=password)
+        db.session.add(user_query)
+        db.session.commit()
+        flash("Thank you for registering!")
+    else:
+        flash("You are already registered!")
 
     return redirect("/")
-
+    #####CODE checks if the user is in the database... if not add new user
+    # once new user added ... redirect user to the homepage
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
@@ -61,9 +72,10 @@ if __name__ == "__main__":
     app.debug = True
     app.jinja_env.auto_reload = app.debug  # make sure templates, etc. are not cached in debug mode
 
-    connect_to_db(app)
-
     # Use the DebugToolbar
     DebugToolbarExtension(app)
+
+    #Lines below needs to stay for app to work! all else commented out to remove debugger.
+    connect_to_db(app)
 
     app.run(port=5000, host='0.0.0.0')
