@@ -35,40 +35,24 @@ def user_list():
     users = User.query.all()
     return render_template("user_list.html", users=users)
 
-
-
-
-
-
+# *** START HERE TOMORROW (5/4)
 @app.route('/register', methods=["GET"])
 def register_form():
     """     """
-
     email = request.args.get('email')
     password = request.arg.get('password')
 
     return render_template(registration_form.html)
 
 
-
-
+# *** START HERE TOMORROW (5/4)
 @app.route('/register', methods=["POST"])
 def register_process():
     """      """
-
     #####CODE checks if the user is in the database... if not add new user
-    # once new user added ... redirect user to the homepage 
+    # once new user added ... redirect user to the homepage
 
     return redirect("/")
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == "__main__":
