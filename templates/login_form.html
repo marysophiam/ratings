@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Please enter your email address &amp; password to log into the HMRD.</h2>
+
+<form action="/login" method= "POST">
+  <div class="form-group">
+    Email address:<br>
+    <input type="email" name="email">
+  </div>
+  <br>
+  <div class="form-group">
+    Password:<br>
+      <input type="password" name="password">
+  </div>
+  <br>
+  <div>
+    <input type="submit" value="Log me in!">
+  </div>
+</form>
+
+{% endblock %}
