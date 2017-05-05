@@ -54,7 +54,7 @@ def register_process():
 
     user = User.query.filter_by(email=email)
     if user.all() == []:
-        # if not user:
+    # if not user:
         user = User(email=email,
                     password=password)
         db.session.add(user)
