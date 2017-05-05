@@ -54,6 +54,7 @@ def register_process():
 
     user_query = User.query.filter_by(email=email)
     if user_query.all() == []:
+    #if not user_query....
         user_query = User(email=email,
                           password=password)
         db.session.add(user_query)
@@ -65,6 +66,55 @@ def register_process():
     return redirect("/")
     #####CODE checks if the user is in the database... if not add new user
     # once new user added ... redirect user to the homepage
+
+
+
+
+#go to login form
+@app.route('/login', methods=["GET"])
+def login_form():
+    """     """
+
+    return render_template("login_form.html")
+
+
+#submit registration
+@app.route('/login', methods=["POST"])
+def login_process():
+    """      """
+
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    user_query = User.query.filter_by(email=email).first()
+
+
+    if not user_query:
+        #if not user....
+        flash("YOU ARE NOT IN THE SYSTEM - please register")
+        return redirect("/")
+    else:
+        if password == user_query.password:
+            # login success
+            flash("Thank you for Logging In!")
+            return redirect("/")
+            #then log user in ---
+            #(add their user id picked up from Database to the FLASK session)
+
+        elif password != user_query.password:
+             flash("Incorrect password Try again")
+             return redirect("/login")
+
+
+
+    #if email matches password:
+        #then log user in ---
+        #(add their user id picked up from Databaseto the FLASK session)
+
+
+
+
+
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
